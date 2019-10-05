@@ -1,6 +1,6 @@
 """
-	The simplest TreeNode data-structure, not necessarily for Binary Search Tree but 
-	for any Directed Acyclic Graph.
+    A tree node for any tree (Directed Acyclic Graph).
+    Not necessarily for Binary Tree.
 """
 
 class TreeNode:
