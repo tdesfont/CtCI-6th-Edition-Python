@@ -1,3 +1,12 @@
+"""
+    Chapter 4: Route Between Nodes
+    The question is to find if there is a route between the nodes
+     source and target, to answer this question we first
+     use DFS or BFS but we do not have the full route at the end,
+     in a second approach we will come up with a solution where
+     we store the route.
+"""
+
 import networkx as nx
 import pdb
 import random
@@ -32,20 +41,55 @@ def visualise_graph(graph):
     plt.show()
 
 def find_route(source, target, graph):
+    """
+    DFS to see if there is a route.
+    :param source:
+    :param target:
+    :param graph:
+    :return:
+    """
     if not source in graph or not target in graph:
         return False
     seen = defaultdict(bool)
     seen[source] = True
-    queue = [source]
+    stack = [source]
+    while stack:
+        source = stack.pop()
+        for neighbor in graph[source]:
+            if not seen[neighbor]:
+                stack.append(neighbor)
+                seen[neighbor] = True
+    return seen[target]
+
+from collections import deque
+
+def get_route(source, target, graph):
+    root = source
+    if not source in graph or not target in graph:
+        return False
+    seen = defaultdict(bool)
+    seen[source] = True
+    previous = {source: None}
+    queue = deque([source])
     while queue:
         source = queue.pop()
         for neighbor in graph[source]:
             if not seen[neighbor]:
-                queue.append(neighbor)
                 seen[neighbor] = True
-    return seen[target]
+                queue.appendleft(neighbor)
+                if neighbor not in previous:
+                    previous[neighbor] = source
+    if seen[target]:
+        node = target
+        path = [node]
+        while node != root:
+            node = previous[node]
+            path.append(node)
+        return path[::-1]
+    else:
+        return None
 
 if __name__ == "__main__":
-    graph = create_graph(edges=10, nodes=20)
-    print(find_route(1, 2, graph))
+    graph = create_graph(edges=40, nodes=10)
+    print(get_route(1, 2, graph))
     visualise_graph(graph)
