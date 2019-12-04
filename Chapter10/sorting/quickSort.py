@@ -1,3 +1,8 @@
+"""
+    Chapter 10: Sorting and Searching
+    QuickSort algorithm
+"""
+
 def quickSort(array, left, right):
     index = partition(array, left, right)
     if left < index - 1:

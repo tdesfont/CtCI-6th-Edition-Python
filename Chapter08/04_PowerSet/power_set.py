@@ -46,17 +46,15 @@ def subsets_memo(s):
     return S
 
 if __name__ == "__main__":
+    for N in range(16):
+        for _ in range(10):
+            s = set(list(range(N)))
 
-    N = 15
-    print(N)
-    s = set(list(range(N)))
+            t0 = time.time()
+            subsets_memo(s)
+            t0 = time.time() - t0
 
-    t0 = time.time()
-    subsets_memo(s)
-    t0 = time.time() - t0
-
-    t1 = time.time()
-    subsets(s)
-    t1 = time.time() - t1
-
-    print(t0, t1)
+            t1 = time.time()
+            subsets(s)
+            t1 = time.time() - t1
+            print("{} | {}".format(round(t0, 5), round(t1, 5)))
